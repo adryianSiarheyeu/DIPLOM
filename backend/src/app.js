@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 dotenv.config();
+
+app.use(cors());
 
 // Import routes
 const authRoutes = require("./routes/auth");
@@ -22,7 +25,7 @@ mongoose.connect(
 app.use(express.json());
 
 // Routes Middleware
-app.use("/api/user", authRoutes);
+app.use("/api/auth", authRoutes);
 app.listen(PORT, (req, res) => {
   console.log(`Server is running at ${PORT}`);
 });
