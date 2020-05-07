@@ -6,9 +6,10 @@ export function* signUp(action) {
   try {
     const response = yield signAPI.signUp(action.payload);
 
-    console.log(response);
+    yield put(signActions.signUpSuccess(response.data));
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    yield put(signActions.signUpFail(error.message));
   }
 }
 

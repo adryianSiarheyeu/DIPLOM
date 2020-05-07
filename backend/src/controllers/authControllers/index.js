@@ -17,13 +17,11 @@ const registerController = async (req, res, next) => {
       address,
     });
 
-    const savedUser = await user.save();
+    await user.save();
 
     res.json({
-      id: savedUser._id,
-      company: savedUser.companyName,
-      email: savedUser.email,
-      address: savedUser.address,
+      success: true,
+      message: "Your account successfully created!",
     });
   } catch (error) {
     res.status(400).send(error);

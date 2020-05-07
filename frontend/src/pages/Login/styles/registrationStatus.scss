@@ -1,0 +1,30 @@
+.status-container {
+  margin-top: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25px;
+
+    .status-icon {
+      width: 75px;
+      height: 75px;
+      background-size: cover;
+      margin-bottom: 15px;
+    }
+
+    .status-text {
+      margin-bottom: 15px;
+    }
+
+  .button {
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    font-size: 20px;
+
+    &:hover {
+      border-bottom: 1px solid black;
+    }
+  }
+}

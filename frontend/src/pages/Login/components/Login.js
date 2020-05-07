@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -11,7 +10,14 @@ import Container from "@material-ui/core/Container";
 import { signValidation } from "../utils";
 import { isEmpty } from "lodash";
 
-const Login = ({ onHandleSign }) => {
+import RegistrationStatus from "./RegistrationStatus";
+
+const Login = ({
+  onHandleSign,
+  isLoading,
+  isAccountCreated,
+  registerResponseMessage,
+}) => {
   const classes = useStyles();
   const initialEmptyState = {
     email: "",
@@ -21,6 +27,7 @@ const Login = ({ onHandleSign }) => {
     companyName: "",
   };
   const [isSignUpMode, setSignMode] = useState(false);
+  const [isStatusScreenOpen, setStatusScreenOpen] = useState(false);
   const [formValues, setFieldValue] = useState(initialEmptyState);
 
   const changeFormField = useCallback(
@@ -42,128 +49,149 @@ const Login = ({ onHandleSign }) => {
     (event) => {
       event.preventDefault();
       onHandleSign(formValues, isSignUpMode);
+      if (isSignUpMode) {
+        setStatusScreenOpen(true);
+      }
     },
     [formValues]
   );
 
+  const goToLoginHandler = useCallback(() => {
+    if (isAccountCreated) {
+      setStatusScreenOpen(false);
+      setSignMode(false);
+    } else {
+      setStatusScreenOpen(false);
+    }
+    setFieldValue(initialEmptyState);
+  }, [isAccountCreated]);
+  console.log(isSignUpMode, isAccountCreated);
+
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <div className={classes.icon} />
-        <Typography component="h1" variant="h5">
-          {isSignUpMode ? `Sign up` : `Sign in`}
-        </Typography>
-        <form className={classes.form} onSubmit={(event) => onSubmit(event)}>
-          {isSignUpMode && (
-            <>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="Company Name"
-                value={formValues.companyName}
-                onChange={(event) =>
-                  changeFormField("companyName", event.target.value)
-                }
-                name="name"
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="address"
-                label="Address"
-                value={formValues.address}
-                onChange={(event) =>
-                  changeFormField("address", event.target.value)
-                }
-                type="text"
-                name="name"
-              />
-            </>
-          )}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            type="email"
-            id="email"
-            label="Email"
-            value={formValues.email}
-            onChange={(event) => changeFormField("email", event.target.value)}
-            name="email"
-            autoComplete="email"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            value={formValues.password}
-            onChange={(event) =>
-              changeFormField("password", event.target.value)
-            }
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          {isSignUpMode && (
+      {!isStatusScreenOpen && !isLoading ? (
+        <div className={classes.paper}>
+          <div className={classes.icon} />
+          <Typography component="h1" variant="h5">
+            {isSignUpMode ? `Sign up` : `Sign in`}
+          </Typography>
+          <form className={classes.form} onSubmit={(event) => onSubmit(event)}>
+            {isSignUpMode && (
+              <>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Company Name"
+                  value={formValues.companyName}
+                  onChange={(event) =>
+                    changeFormField("companyName", event.target.value)
+                  }
+                  name="name"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="address"
+                  label="Address"
+                  value={formValues.address}
+                  onChange={(event) =>
+                    changeFormField("address", event.target.value)
+                  }
+                  type="text"
+                  name="name"
+                />
+              </>
+            )}
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="confirm"
-              label="Confirm password"
-              value={formValues.confirmPassword}
+              type="email"
+              id="email"
+              label="Email"
+              value={formValues.email}
+              onChange={(event) => changeFormField("email", event.target.value)}
+              name="email"
+              autoComplete="email"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              value={formValues.password}
               onChange={(event) =>
-                changeFormField("confirmPassword", event.target.value)
+                changeFormField("password", event.target.value)
               }
               type="password"
-              id="confirm"
+              id="password"
               autoComplete="current-password"
             />
-          )}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={!isEmpty(signValidation(formValues, isSignUpMode))}
-            color="primary"
-            className={classes.submit}
-          >
-            {isSignUpMode ? `Sign Up` : `Sign In`}
-          </Button>
-          <Grid container justify="center">
-            <Grid item>
-              <Link
-                href="#"
-                variant="body2"
-                onClick={() => changeSingMode()}
-                className={classes.signModeToggler}
-              >
-                {isSignUpMode
-                  ? "Back to Sign In"
-                  : `Don't have an account? Sign Up`}
-              </Link>
+            {isSignUpMode && (
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirm"
+                label="Confirm password"
+                value={formValues.confirmPassword}
+                onChange={(event) =>
+                  changeFormField("confirmPassword", event.target.value)
+                }
+                type="password"
+                id="confirm"
+                autoComplete="current-password"
+              />
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={!isEmpty(signValidation(formValues, isSignUpMode))}
+              color="primary"
+              className={classes.submit}
+            >
+              {isSignUpMode ? `Sign Up` : `Sign In`}
+            </Button>
+            <Grid container justify="center">
+              <Grid item>
+                <Link
+                  variant="body2"
+                  onClick={() => changeSingMode()}
+                  className={classes.signModeToggler}
+                  style={{ cursor: "pointer" }}
+                >
+                  {isSignUpMode
+                    ? "Back to Sign In"
+                    : `Don't have an account? Sign Up`}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
+          </form>
+        </div>
+      ) : (
+        <RegistrationStatus
+          isAccountCreated={isAccountCreated}
+          message={registerResponseMessage}
+          isLoading={isLoading}
+          returnBackTo={goToLoginHandler}
+        />
+      )}
     </Container>
   );
 };
 
 Login.propTypes = {
-  onHandleSignIn: PropTypes.func.isRequired,
-  onHandleSignUp: PropTypes.func.isRequired,
+  onHandleSign: PropTypes.func.isRequired,
 };
 
 export default React.memo(Login);
