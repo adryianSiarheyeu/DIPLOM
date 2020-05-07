@@ -4,6 +4,8 @@ import { Switch, Route } from "react-router-dom";
 import { ROUTES } from "../config/routesNames";
 import LoginContainer from "../pages/Login/containers/LoginContainer";
 import { checkToken } from "../actions/globalActions";
+import PrivateRoute from "./PrivateRoute";
+import MyComponent from "../pages/UserDashboard";
 
 export const Routes = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ export const Routes = () => {
   return (
     <Switch>
       <Route exact path={ROUTES.LOGIN} component={LoginContainer} />
-      {/*<Route exact path={ROUTES.PROFILE} component={LoginContainer} />*/}
+      <PrivateRoute component={MyComponent} path={ROUTES.PROFILE} exact />
     </Switch>
   );
 };
