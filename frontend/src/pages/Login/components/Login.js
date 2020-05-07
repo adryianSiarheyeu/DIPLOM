@@ -65,7 +65,6 @@ const Login = ({
     }
     setFieldValue(initialEmptyState);
   }, [isAccountCreated]);
-  console.log(isSignUpMode, isAccountCreated);
 
   return (
     <Container component="main" maxWidth="xs">
