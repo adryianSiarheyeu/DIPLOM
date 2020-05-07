@@ -1,6 +1,10 @@
+import axios from "axios";
 import { put, takeLatest, takeEvery, all, call } from "redux-saga/effects";
+
 import * as signActions from "../actions/index";
 import * as signAPI from "../api/index";
+import * as globalActions from "../../../actions/globalActions";
+import api from "../../../config/apiConfig";
 
 export function* signUp(action) {
   try {
@@ -8,7 +12,6 @@ export function* signUp(action) {
 
     yield put(signActions.signUpSuccess(response.data));
   } catch (error) {
-    console.log(error.message);
     yield put(signActions.signUpFail(error.message));
   }
 }
@@ -21,10 +24,30 @@ export function* signIn(action) {
   try {
     const response = yield signAPI.login(action.payload);
 
-    console.log(response);
+    axios.defaults.headers.common.Authorization = `Bearer ${response.data.access_token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${response.data.access_token}`;
+    localStorage.setItem("token", response.data.access_token);
+
+    yield put(signActions.signInSuccess(response.data));
   } catch (error) {
-    console.log(error);
+    yield put(signActions.signInFail(error));
   }
+}
+
+export function* checkToken() {
+  const token = yield localStorage.getItem("token");
+
+  if (token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    yield put(globalActions.checkTokenSuccess());
+  } else {
+    yield put(globalActions.checkTokenFail());
+  }
+}
+
+export function* checkTokenWatcher() {
+  yield takeEvery(globalActions.checkToken, checkToken);
 }
 
 export function* signInWatcher() {
@@ -32,5 +55,5 @@ export function* signInWatcher() {
 }
 
 export function* authSaga() {
-  yield all([signUpWatcher(), signInWatcher()]);
+  yield all([signUpWatcher(), signInWatcher(), checkTokenWatcher()]);
 }

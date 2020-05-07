@@ -32,11 +32,12 @@ const loginController = async (req, res, next) => {
   const { user } = req;
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
-  res.header("auth-token", token).json({
+  res.json({
     id: user._id,
     company: user.companyName,
     email: user.email,
     address: user.address,
+    access_token: token,
   });
 };
 
