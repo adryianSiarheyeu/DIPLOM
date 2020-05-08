@@ -1,13 +1,25 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { ROUTES } from "../../../config/routesNames";
 
 import Login from "../components/Login";
 import { signInStart, signUpStart } from "../actions";
 
-const LoginContainer = ({}) => {
-  const { isAccountCreated, registerResponseMessage, isLoading } = useSelector(
-    (state) => state.user
-  );
+const LoginContainer = () => {
+  const history = useHistory();
+  const {
+    isAccountCreated,
+    registerResponseMessage,
+    isLoading,
+    isAuth,
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push(ROUTES.HOME);
+    }
+  }, [isAuth]);
 
   const dispatch = useDispatch();
 

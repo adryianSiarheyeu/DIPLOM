@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
 
 module.exports = {
   isUserExistsMiddleware: async (req, res, next) => {
@@ -43,15 +44,14 @@ module.exports = {
     }
   },
   verifyTokenMiddleware: (req, res, next) => {
-    const token = req.headers;
-    if (!token) return res.status(401).send("Access Denied");
+    const token = req.headers.authorization.split(" ")[1];
+    if (token == null) return res.sendStatus(401); // if there isn't any token
 
-    try {
-      const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-      req.user = verified;
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+
+      req.userId = user._id;
       next();
-    } catch (error) {
-      res.status(400).send("Invalid Token");
-    }
+    });
   },
 };

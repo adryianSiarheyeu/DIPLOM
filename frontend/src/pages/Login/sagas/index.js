@@ -1,12 +1,12 @@
 import axios from "axios";
-import { put, takeLatest, takeEvery, all, call } from "redux-saga/effects";
+import { put, takeEvery, all, call } from "redux-saga/effects";
 
 import * as signActions from "../actions/index";
 import * as signAPI from "../api/index";
 import * as globalActions from "../../../actions/globalActions";
 import api from "../../../config/apiConfig";
 
-export function* signUp(action) {
+function* signUp(action) {
   try {
     const response = yield signAPI.signUp(action.payload);
 
@@ -16,11 +16,11 @@ export function* signUp(action) {
   }
 }
 
-export function* signUpWatcher() {
+function* signUpWatcher() {
   yield takeEvery(signActions.signUpStart, signUp);
 }
 
-export function* signIn(action) {
+function* signIn(action) {
   try {
     const response = yield signAPI.login(action.payload);
 
@@ -34,7 +34,7 @@ export function* signIn(action) {
   }
 }
 
-export function* checkToken() {
+function* checkToken() {
   const token = yield localStorage.getItem("token");
 
   if (token) {
@@ -46,14 +46,27 @@ export function* checkToken() {
   }
 }
 
-export function* checkTokenWatcher() {
+function* logout() {
+  yield localStorage.removeItem("token");
+}
+
+function* logoutWatcher() {
+  yield takeEvery(signActions.logOutSuccess, logout);
+}
+
+function* checkTokenWatcher() {
   yield takeEvery(globalActions.checkToken, checkToken);
 }
 
-export function* signInWatcher() {
+function* signInWatcher() {
   yield takeEvery(signActions.signInStart, signIn);
 }
 
 export function* authSaga() {
-  yield all([signUpWatcher(), signInWatcher(), checkTokenWatcher()]);
+  yield all([
+    signUpWatcher(),
+    signInWatcher(),
+    checkTokenWatcher(),
+    logoutWatcher(),
+  ]);
 }

@@ -5,13 +5,16 @@ import { configureStore } from "./store/configureStore";
 import { BrowserRouter } from "react-router-dom";
 import "./styles/index.scss";
 import { Routes } from "./routes/Routes";
+import MainLayout from "./components/MainLayout/MainLayout";
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Routes />
+      <MainLayout>
+        <Routes />
+      </MainLayout>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

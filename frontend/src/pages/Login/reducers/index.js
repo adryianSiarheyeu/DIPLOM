@@ -3,11 +3,11 @@ import * as actions from "../actions/index";
 import * as globalActions from "../../../actions/globalActions";
 
 export const initialState = {
-  information: null,
   isAccountCreated: false,
   registerResponseMessage: null,
   isLoading: false,
   isAuth: false,
+  aceessToken: null,
   errors: null,
 };
 
@@ -36,13 +36,24 @@ export default handleActions(
       return { ...state, isLoading: true };
     },
     [actions.signInSuccess](state, { payload }) {
-      return { ...state, isLoading: false, information: payload, isAuth: true };
+      return {
+        ...state,
+        isLoading: false,
+        accessToken: payload.access_token,
+        isAuth: true,
+      };
     },
     [actions.signInFail](state, { payload }) {
       return {
         ...state,
         isLoading: false,
         errors: "Email or password incorrect",
+        isAuth: false,
+      };
+    },
+    [actions.logOutSuccess](state, { payload }) {
+      return {
+        ...state,
         isAuth: false,
       };
     },
