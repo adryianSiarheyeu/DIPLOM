@@ -8,11 +8,13 @@ import { signInStart, signUpStart } from "../actions";
 
 const LoginContainer = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     isAccountCreated,
     registerResponseMessage,
     isLoading,
     isAuth,
+    error,
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -20,8 +22,6 @@ const LoginContainer = () => {
       history.push(ROUTES.HOME);
     }
   }, [isAuth]);
-
-  const dispatch = useDispatch();
 
   const onHandleSign = useCallback((body, isSignUpMode) => {
     const { address, email, companyName, password } = body;
@@ -36,6 +36,7 @@ const LoginContainer = () => {
       isLoading={isLoading}
       isAccountCreated={isAccountCreated}
       registerResponseMessage={registerResponseMessage}
+      error={error}
     />
   );
 };

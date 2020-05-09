@@ -8,7 +8,7 @@ export const initialState = {
   isLoading: false,
   isAuth: false,
   aceessToken: null,
-  errors: null,
+  error: null,
 };
 
 export default handleActions(
@@ -21,14 +21,14 @@ export default handleActions(
         ...state,
         isLoading: false,
         isAccountCreated: payload.success,
-        registerResponseMessage: payload.message,
+        registerResponseMessage: "Аккаунт успешно создан!",
       };
     },
     [actions.signUpFail](state, { payload }) {
       return {
         ...state,
         isLoading: false,
-        registerResponseMessage: payload,
+        registerResponseMessage: "Произошла ошибка",
         isAccountCreated: false,
       };
     },
@@ -47,7 +47,7 @@ export default handleActions(
       return {
         ...state,
         isLoading: false,
-        errors: "Email or password incorrect",
+        error: "Email or password incorrect",
         isAuth: false,
       };
     },
@@ -75,6 +75,12 @@ export default handleActions(
         ...state,
         isLoading: false,
         isAuth: false,
+      };
+    },
+    [actions.clearErrors](state, { payload }) {
+      return {
+        ...state,
+        error: null,
       };
     },
   },

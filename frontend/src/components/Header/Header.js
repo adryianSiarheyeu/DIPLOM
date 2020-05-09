@@ -118,12 +118,8 @@ const Header = ({}) => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <Badge
-                className={classes.badge}
-                badgeContent={1}
-                color="secondary"
-              >
+            <IconButton className={classes.badge} color="inherit">
+              <Badge badgeContent={1} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.auth);
+
   useEffect(() => {
     dispatch(checkToken());
   }, [isAuth]);
+
   return (
     <div className="main-container">
       <Header />

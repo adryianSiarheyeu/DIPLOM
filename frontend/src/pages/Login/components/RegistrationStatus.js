@@ -27,7 +27,9 @@ const RegistrationStatus = ({
           />
           <div className="status-text">{message}</div>
           <button className="button" onClick={returnBackTo}>
-            {isAccountCreated ? "Go to Login!" : "Try Again"}
+            {isAccountCreated
+              ? "Перейти на страницу авторизации..."
+              : "Попробовать снова!"}
           </button>
         </>
       )}

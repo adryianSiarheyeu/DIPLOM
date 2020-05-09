@@ -9,3 +9,5 @@ export const signUpSuccess = createAction("SIGN_UP_SUCCESS");
 export const signUpFail = createAction("SIGN_UP_FAIL");
 
 export const logOutSuccess = createAction("LOG_OUT_SUCCESS");
+
+export const clearErrors = createAction("CLEAR_ERRORS");

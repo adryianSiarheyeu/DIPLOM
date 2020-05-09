@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -12,15 +11,15 @@ import { signValidation } from "../utils";
 import { isEmpty } from "lodash";
 
 import RegistrationStatus from "./RegistrationStatus";
+import Snack from "../../../components/Snackbar/Snackbar";
 
 const Login = ({
   onHandleSign,
   isLoading,
   isAccountCreated,
   registerResponseMessage,
+  error,
 }) => {
-  const classes = useStyles();
-  const history = useHistory();
   const initialEmptyState = {
     email: "",
     password: "",
@@ -28,6 +27,8 @@ const Login = ({
     address: "",
     companyName: "",
   };
+
+  const classes = useStyles();
   const [isSignUpMode, setSignMode] = useState(false);
   const [isStatusScreenOpen, setStatusScreenOpen] = useState(false);
   const [formValues, setFieldValue] = useState(initialEmptyState);
@@ -187,12 +188,14 @@ const Login = ({
           returnBackTo={goToLoginHandler}
         />
       )}
+      <Snack error={error} />
     </Container>
   );
 };
 
 Login.propTypes = {
   onHandleSign: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 export default React.memo(Login);
