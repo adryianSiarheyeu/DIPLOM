@@ -113,7 +113,12 @@ const Header = ({}) => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar className={classes.header}>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography
+            onClick={() => history.push("/")}
+            className={classes.title}
+            variant="h6"
+            noWrap
+          >
             {"<YOUR_COMPANY_NAME>"}
           </Typography>
           <div className={classes.grow} />

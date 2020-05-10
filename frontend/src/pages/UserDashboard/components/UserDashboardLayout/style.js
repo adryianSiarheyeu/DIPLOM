@@ -5,6 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: 15,
     overflow: "hidden",
+    marginTop: 55,
   },
   paper: {
     padding: theme.spacing(2),

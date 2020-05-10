@@ -3,10 +3,7 @@ import auth from "../pages/Login/reducers/index";
 import user from "../pages/UserDashboard/reducers/index";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import {
-  createFilter,
-  createBlacklistFilter,
-} from "redux-persist-transform-filter";
+import { createBlacklistFilter } from "redux-persist-transform-filter";
 
 const saveSubsetBlacklistFilter = createBlacklistFilter("auth", ["error"]);
 

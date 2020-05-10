@@ -7,7 +7,6 @@ import Avatar from "@material-ui/core/Avatar";
 import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
 import WorkIcon from "@material-ui/icons/Work";
 import BusinessIcon from "@material-ui/icons/Business";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import Divider from "@material-ui/core/Divider";
 import PropTypes from "prop-types";
 
@@ -16,7 +15,6 @@ import { useStyles } from "./style";
 const UserInfoCard = ({ userProfile }) => {
   const classes = useStyles();
   const { companyName, address, email } = userProfile;
-  console.log(userProfile);
 
   return (
     <List className={classes.root}>

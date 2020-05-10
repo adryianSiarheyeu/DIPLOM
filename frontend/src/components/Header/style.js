@@ -3,9 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    position: "fixed",
+    width: "100%",
+
+    top: 0,
+    zIndex: 1,
   },
   header: {
     backgroundColor: "#41474d",
+    display: "flex",
+    justifyContent: "space-between",
   },
   signButton: {
     color: "#fff",
@@ -21,6 +28,7 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+    cursor: "pointer",
   },
   inputRoot: {
     color: "inherit",

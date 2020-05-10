@@ -1,0 +1,17 @@
+.shop-container {
+  padding: 20px;
+  margin-top: 55px;
+
+    .title {
+      width: 100%;
+      text-align: center;
+      color: #41464c;
+      padding: 16px;
+    }
+
+    .goods-area {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+}
