@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import "./style.js";
 import UserInfoCard from "../UserInfoCard/UserInfoCard";
 import OrdersList from "../OrdersList/OrdersList";
+import EmptyStatePage from "../../../../components/EmptyStatePage/EmptyStatePage";
+import EmptyOrderImage from "../../../../static/forbidden.svg";
 
 const UserDashboardLayout = ({ userProfile }) => {
   const classes = useStyles();
@@ -24,8 +26,17 @@ const UserDashboardLayout = ({ userProfile }) => {
         </Grid>
         <Grid item xs={12} sm={7}>
           <div className={classes.customPaper}>Ваши заказы:</div>
-          <OrdersList />
-          {/*</Paper>*/}
+          {userProfile.orders.length > 0 ? (
+            <OrdersList orders={userProfile.orders} />
+          ) : (
+            <EmptyStatePage
+              routToGo={"/"}
+              text={"У вас нет активных заказов"}
+              imageUrl={EmptyOrderImage}
+              buttonText={"Отправиться в магазин"}
+              isAtDash
+            />
+          )}
         </Grid>
       </Grid>
     </div>

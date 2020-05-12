@@ -14,6 +14,12 @@ import Typography from "@material-ui/core/Typography";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import { Check } from "@material-ui/icons";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
 
 function createData(orderNumber, date, price) {
   return { orderNumber, date, price };
@@ -27,7 +33,7 @@ const rows = [
   createData("1baabaeg", "01.01.2020", 2500),
 ];
 
-const OrdersList = ({}) => {
+const OrdersList = ({ orders }) => {
   const classes = useStyles();
 
   return (
@@ -41,8 +47,8 @@ const OrdersList = ({}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={row.orderNumber}>
+          {orders.map((order, index) => (
+            <TableRow key={order._id}>
               <TableCell component="th" scope="row">
                 <ExpansionPanel>
                   <ExpansionPanelSummary
@@ -51,18 +57,56 @@ const OrdersList = ({}) => {
                     id="panel1a-header"
                   >
                     <Typography className={classes.heading}>
-                      {row.orderNumber}
+                      {order._id}
                     </Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                    <Typography>Какая-то инфа о заказе</Typography>
+                    <List
+                      style={{
+                        width: "100%",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {order.goods.map((good, index) => {
+                        return (
+                          <ListItem
+                            style={{
+                              width: "100%",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
+                              <ListItemAvatar>
+                                <div
+                                  className={classes.goodImage}
+                                  style={{
+                                    backgroundImage: `url(${good.image})`,
+                                  }}
+                                />
+                              </ListItemAvatar>
+                              <ListItemText
+                                style={{ maxWidth: 145, width: "100%" }}
+                                primary={good.name}
+                                secondary={good.size || good.series}
+                              />
+                            </div>
+
+                            <ListItemText
+                              style={{ maxWidth: 145, width: "100%" }}
+                              primary={`Количество: ${good.quantity}`}
+                              secondary={`Стоимость: ${good.price} BYN`}
+                            />
+                          </ListItem>
+                        );
+                      })}
+                    </List>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               </TableCell>
-              <TableCell align="center">{row.date}</TableCell>
-              <TableCell align="right">{row.price}</TableCell>
-              {/*<TableCell align="right">{row.carbs}</TableCell>*/}
-              {/*<TableCell align="right">{row.protein}</TableCell>*/}
+              <TableCell align="center">{order.date.slice(0, 10)}</TableCell>
+              <TableCell align="right">{order.totalPrice.toFixed(2)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -71,6 +115,8 @@ const OrdersList = ({}) => {
   );
 };
 
-OrdersList.propTypes = {};
+OrdersList.propTypes = {
+  orders: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default React.memo(OrdersList);

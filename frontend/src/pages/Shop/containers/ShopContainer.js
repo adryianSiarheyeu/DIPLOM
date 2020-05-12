@@ -6,6 +6,7 @@ import {
   addItemToOrder,
   removeItemFromOrder,
 } from "../../ShoppingCart/actions";
+import { materials } from "../config";
 
 const ShopContainer = ({}) => {
   const dispatch = useDispatch();
@@ -14,7 +15,9 @@ const ShopContainer = ({}) => {
   );
 
   const handleAddToCart = useCallback((itemToAdd) => {
-    dispatch(addItemToOrder({ ...itemToAdd, quantity: 1 }));
+    dispatch(
+      addItemToOrder({ ...itemToAdd, quantity: 1, material: materials[0] })
+    );
   }, []);
 
   const handleRemoveFromCart = useCallback(

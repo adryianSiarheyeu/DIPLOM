@@ -93,7 +93,11 @@ const Header = ({}) => {
         <IconButton
           aria-label="show 4 new mails"
           color="inherit"
-          onClick={() => onHandleNavigate(ROUTES.CART)}
+          onClick={
+            isAuth
+              ? () => onHandleNavigate(ROUTES.CART)
+              : () => onHandleNavigate(ROUTES.LOGIN)
+          }
         >
           <Badge badgeContent={itemsList.length} color="secondary">
             <ShoppingCartIcon />
@@ -125,14 +129,18 @@ const Header = ({}) => {
             variant="h6"
             noWrap
           >
-            {"<YOUR_COMPANY_NAME>"}
+            {"БелТехМет"}
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton
               className={classes.badge}
               color="inherit"
-              onClick={() => onHandleNavigate(ROUTES.CART)}
+              onClick={
+                isAuth
+                  ? () => onHandleNavigate(ROUTES.CART)
+                  : () => onHandleNavigate(ROUTES.LOGIN)
+              }
             >
               <Badge badgeContent={itemsList.length} color="secondary">
                 <ShoppingCartIcon />

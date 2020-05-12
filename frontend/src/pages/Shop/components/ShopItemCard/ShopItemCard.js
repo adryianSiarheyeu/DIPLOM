@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useStyles } from "./style";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -19,6 +20,7 @@ const ShopItemCard = ({
   const { name, type, size, series, price, image } = shopItem;
   const classes = useStyles();
   const history = useHistory();
+  const isAuth = useSelector((state) => state.auth.isAuth);
 
   return (
     <Card className={classes.root}>
@@ -62,7 +64,11 @@ const ShopItemCard = ({
           <Button
             size="small"
             color="primary"
-            onClick={() => handleAddToCart(shopItem)}
+            onClick={
+              isAuth
+                ? () => handleAddToCart(shopItem)
+                : () => history.push("/login")
+            }
           >
             Добавить в корзину
           </Button>

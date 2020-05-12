@@ -1,0 +1,23 @@
+.empty-state-page-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+
+    .empty-state_image {
+      background-repeat: no-repeat;
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+      background-size: cover;
+    }
+
+    .empty-state_text {
+      font-size: 25px;
+    }
+  div {
+    margin-bottom: 20px;
+  }
+}

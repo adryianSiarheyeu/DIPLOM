@@ -2,7 +2,8 @@ import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
-import { editItemQuantity, removeItemFromOrder } from "../actions";
+import { editItem, removeItemFromOrder, sendOrderStart } from "../actions";
+import { calculateTotalPrice } from "../utils";
 
 const ShoppingCartContainer = ({}) => {
   const { itemsList } = useSelector((state) => state.shoppingCart);
@@ -20,17 +21,17 @@ const ShoppingCartContainer = ({}) => {
       if (payload.fieldToEdit === "quantity") {
         if (+payload.value <= 1) {
           dispatch(
-            editItemQuantity({
+            editItem({
               id: payload.id,
               value: 1,
               fieldToEdit: "quantity",
             })
           );
         } else {
-          dispatch(editItemQuantity(payload));
+          dispatch(editItem(payload));
         }
       } else {
-        dispatch(editItemQuantity(payload));
+        dispatch(editItem(payload));
       }
     },
     [itemsList]
@@ -38,8 +39,9 @@ const ShoppingCartContainer = ({}) => {
 
   const onHandleSubmit = useCallback(
     (data) => {
-      const { address, paymentMethod, goods } = data;
-      console.log({ address, paymentMethod, goods });
+      const totalPrice = calculateTotalPrice(itemsList);
+
+      dispatch(sendOrderStart({ ...data, totalPrice }));
     },
     [itemsList]
   );
@@ -56,4 +58,4 @@ const ShoppingCartContainer = ({}) => {
 
 ShoppingCartContainer.propTypes = {};
 
-export default ShoppingCartContainer;
+export default React.memo(ShoppingCartContainer);

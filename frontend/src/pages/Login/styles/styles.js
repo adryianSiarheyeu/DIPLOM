@@ -3,7 +3,7 @@ import pipesIcon from "../../../static/building.svg";
 
 export const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: 100,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
