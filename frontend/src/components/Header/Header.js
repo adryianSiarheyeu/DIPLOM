@@ -19,9 +19,11 @@ import { logOutSuccess } from "../../pages/Login/actions";
 
 const Header = ({}) => {
   const { isAuth } = useSelector((state) => state.auth);
+  const { itemsList } = useSelector((state) => state.shoppingCart);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -88,8 +90,12 @@ const Header = ({}) => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+        <IconButton
+          aria-label="show 4 new mails"
+          color="inherit"
+          onClick={() => onHandleNavigate(ROUTES.CART)}
+        >
+          <Badge badgeContent={itemsList.length} color="secondary">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -123,8 +129,12 @@ const Header = ({}) => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton className={classes.badge} color="inherit">
-              <Badge badgeContent={1} color="secondary">
+            <IconButton
+              className={classes.badge}
+              color="inherit"
+              onClick={() => onHandleNavigate(ROUTES.CART)}
+            >
+              <Badge badgeContent={itemsList.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

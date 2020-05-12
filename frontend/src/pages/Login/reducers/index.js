@@ -7,7 +7,7 @@ export const initialState = {
   registerResponseMessage: null,
   isLoading: false,
   isAuth: false,
-  aceessToken: null,
+  accessToken: null,
   error: null,
 };
 

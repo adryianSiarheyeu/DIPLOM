@@ -13,7 +13,7 @@ const MainLayout = ({ children }) => {
   }, [isAuth]);
 
   return (
-    <div className="main-container">
+    <div className="main-container" style={{ overflow: "hidden" }}>
       <Header />
       {children}
     </div>

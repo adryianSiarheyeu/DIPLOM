@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import { useStyles } from "./style";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -9,9 +10,15 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-const ShopItemCard = ({ shopItem }) => {
+const ShopItemCard = ({
+  shopItem,
+  handleAddToCart,
+  handleRemoveFromCart,
+  isAlreadyAdded,
+}) => {
   const { name, type, size, series, price, image } = shopItem;
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Card className={classes.root}>
@@ -26,20 +33,40 @@ const ShopItemCard = ({ shopItem }) => {
             {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {/*Тип: {type}*/}
             <p>{size ? `Размер: ${size}` : `Серия: ${series}`}</p>
             <p>Цена: {price} BYN</p>
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => console.log(shopItem)}
-        >
-          Добавить в корзину
-        </Button>
+        {isAlreadyAdded ? (
+          <>
+            <Button
+              size="small"
+              color="primary"
+              style={{ color: "red" }}
+              onClick={() => handleRemoveFromCart(shopItem.id)}
+            >
+              Убрать из корзины
+            </Button>
+            <Button
+              size="small"
+              color="primary"
+              // style={{ color: "red" }}
+              onClick={() => history.push("/cart")}
+            >
+              Перейти к корзине
+            </Button>
+          </>
+        ) : (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => handleAddToCart(shopItem)}
+          >
+            Добавить в корзину
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
@@ -47,6 +74,9 @@ const ShopItemCard = ({ shopItem }) => {
 
 ShopItemCard.propTypes = {
   shopItem: PropTypes.object,
+  handleAddToCart: PropTypes.func.isRequired,
+  handleRemoveFromCart: PropTypes.func.isRequired,
+  isAlreadyAdded: PropTypes.bool,
 };
 
-export default ShopItemCard;
+export default React.memo(ShopItemCard);
