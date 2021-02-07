@@ -26,7 +26,7 @@ const UserDashboardLayout = ({ userProfile }) => {
         </Grid>
         <Grid item xs={12} sm={7}>
           <div className={classes.customPaper}>Ваши заказы:</div>
-          {userProfile.orders.length > 0 ? (
+          {userProfile?.orders.length > 0 ? (
             <OrdersList orders={userProfile.orders} />
           ) : (
             <EmptyStatePage

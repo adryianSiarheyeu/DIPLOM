@@ -24,6 +24,7 @@ module.exports = {
     try {
       const user = await User.findOne({ email });
 
+
       if (!user)
         return res
           .status(404)
@@ -45,7 +46,7 @@ module.exports = {
   },
   verifyTokenMiddleware: (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
-    if (token == null) return res.sendStatus(401); // if there isn't any token
+    if (token === null) return res.sendStatus(401); // if there isn't any token
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) return res.sendStatus(403);
